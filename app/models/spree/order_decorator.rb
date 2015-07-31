@@ -2,33 +2,11 @@ module Spree
 
   Order.class_eval do
 
-    def personalization_attributes_match(line_item, options)
-      lp = line_item.personalization
-      if lp.nil?
-        options.empty?
-      else
-        pp = line_item.product.personalization
-        if pp
-          options['name'] = pp.name
-          calc = pp.calculator
-          options['price'] = calc.preferred_amount
-          options['currency'] = calc.preferred_currency
-        end
-        lp.match? options.with_indifferent_access
-      end
+    def personalizations_match(line_item, other_line_item_or_personalizations_attributes)
+      line_item.personalizations_match_with? other_line_item_or_personalizations_attributes
     end
 
-    def personalization_match(line_item, other_line_item)
-      lp = line_item.personalization
-      olp = other_line_item.personalization
-      if lp.nil?
-        olp.nil?
-      else
-        lp.match? olp
-      end
-    end
-
-    self.register_line_item_comparison_hook(:personalization_match)
+    self.register_line_item_comparison_hook(:personalizations_match)
 
   end
 end
