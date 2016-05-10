@@ -29,8 +29,8 @@ describe Spree::LineItem do
     it "is invalid when required personalization is not set" do
       @product_personalizations[0].required = true
       line_item = @order.contents.add(@variant, @quantity, get_params([@personalization_2, @personalization_4]))
-      expect(line_item.valid?).to be_false
-      expect(line_item.errors.messages[:'personalizations.missing'].size > 0).to be_true
+      expect(line_item.valid?).to eq false
+      expect(line_item.errors.messages[:'personalizations.missing'].size > 0).to eq true
     end
   end
 
