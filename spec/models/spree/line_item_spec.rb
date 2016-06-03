@@ -73,12 +73,12 @@ describe Spree::LineItem do
         expect(line_item.quantity).to eq(@quantity)
         expect(line_item.personalizations.count).to eq 3
 
-        expect(line_item.personalizations.map(&:value).uniq).to eq [@personalization_1[:value], @personalization_2[:value], @select_option_value_product_personalization.option_value.name]
-        expect(line_item.personalizations.map(&:name).uniq).to eq [@personalization_1[:name], @personalization_2[:name], @personalization_4[:name]]
-        expect(line_item.personalizations.map(&:limit).uniq).to eq [45, 67, 200]
+        expect(line_item.personalizations.map(&:value).uniq).to eq [@personalization_1[:value], @personalization_2[:value], @select_option_value_product_personalization.option_value.name, 'some_value']
+        expect(line_item.personalizations.map(&:name).uniq).to eq [@personalization_1[:name], @personalization_2[:name], @personalization_4[:name], 'Not-Set-In-Product']
+        expect(line_item.personalizations.map(&:limit).uniq).to eq [45, 67, 200, 255]
 
-        expect(line_item.personalizations.map(&:price).map(&:to_s)).to eq ["5.0", "7.0", "9.0"]
-        expect(line_item.personalizations.map(&:currency).uniq).to eq ["USD"]
+        expect(line_item.personalizations.map(&:price).map(&:to_s)).to eq ["5.0", "7.0", "9.0", '']
+        expect(line_item.personalizations.map(&:currency).compact.uniq).to eq ["USD"]
       end
     end
   end
